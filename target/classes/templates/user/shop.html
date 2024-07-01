@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="ie=edge" http-equiv="x-ua-compatible">
+    <title>Rook Book Store</title>
+    <meta content="" name="description">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <!-- Favicons -->
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel=" apple-touch-icon" th:href="@{/images/icon.png}" }>
+
+    <!-- Google font (font-family: 'Roboto', sans-serif; Poppins ; Satisfy) -->
+    <link rel="stylesheet" th:href="@{/css/user/open_sans.css}">
+    <link rel="stylesheet" th:href="@{/css/user/poppins.css}">
+    <link rel="stylesheet" th:href="@{/css/user/roboto.css}">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" th:href="@{/css/user/bootstrap.min.css}">
+
+    <!-- Plugins css -->
+    <link rel="stylesheet" th:href="@{/css/user/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/user/bicon.min.css}">
+    <link rel="stylesheet" th:href="@{/css/user/pe-icon-7-stroke.css}">
+    <link rel="stylesheet" th:href="@{/css/user/slick.min.css}">
+    <link rel="stylesheet" th:href="@{/css/user/fakeloader.css}">
+    <link rel="stylesheet" th:href="@{/css/user/nivo-slider.css}">
+    <link rel="stylesheet" th:href="@{/css/user/nivo-preview-2.css}">
+    <link rel="stylesheet" th:href="@{/css/user/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/css/user/owl.theme.default.min.css}">
+    <link rel="stylesheet" th:href="@{/css/user/material-design-iconic-font.min.css}">
+    <link rel="stylesheet" th:href="@{/css/user/animation.css}">
+    <link rel="stylesheet" th:href="@{/css/user/fancybox.css}">
+    <link rel="stylesheet" th:href="@{/css/user/mainmenu.css}">
+    <link rel="stylesheet" th:href="@{/css/user/fotorama.css}">
+    <link rel="stylesheet" th:href="@{/css/user/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/css/user/lightbox.css}">
+    <link rel="stylesheet" th:href="@{/css/user/style.css}">
+
+    <!-- Cusom css -->
+    <link rel="stylesheet" th:href="@{/css/user/custom.css}">
+
+    <!-- Modernizer js -->
+    <script th:src="@{/js/user/vendor/modernizr-3.5.0.min.js}"></script>
+
+    <style>
+        .prod {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .product_img {
+            height: 300px;
+            overflow: hidden;
+            display: block;
+        }
+
+        .product_img img {
+
+            height: 100%;
+        }
+
+        .title-container {
+            height: 60px;
+        }
+
+        .mainmenu__nav .meninmenu li a {
+            color: white;
+        }
+    </style>
+
+    <style>
+        .ft__logo a img {
+            max-width: 20%;
+        }
+    </style>
+
+</head>
+
+<body>
+<!-- Main wrapper -->
+<div class="wrapper" id="wrapper">
+    <!-- Header -->
+    <header th:replace="user/fragments/header :: header"></header>
+    <!-- //Header -->
+
+    <!-- Start Bradcaump area -->
+    <div class="ht__bradcaump__area bg-image--6">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="bradcaump__inner text-center">
+                        <h2 class="bradcaump-title">Shop</h2>
+                        <nav class="bradcaump-content">
+                            <a class="breadcrumb_item" th:href="@{/}">Home</a>
+                            <span class="brd-separetor">/</span>
+                            <span class="breadcrumb_item active">Shop</span>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Bradcaump area -->
+    <!-- Start Shop Page -->
+    <div class="page-shop-sidebar left--sidebar bg--white section-padding--lg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-12 order-2 order-lg-1 md-mt-40 sm-mt-40">
+                    <div class="shop__sidebar">
+                        <aside class="wedget__categories poroduct--cat">
+                            <form method="get" th:action="@{/shop}" th:object="${searchModel}">
+                                <h3 class="wedget__title">Categories</h3>
+                                <ul>
+                                    <li class="" style="box-sizing: border-box" th:each="category : ${categories}">
+                                        <input name="categoryId" th:field="*{categoryId}" th:value="${category.id}"
+                                               type="radio">
+                                        <span th:text="${category.name}"></span>
+                                        <a><span style="color: #333; float: right"
+                                                 th:text="'(' + ${category.getBookList().size() + ')'}"></span></a>
+                                    </li>
+                                </ul>
+
+                                <h3 class="mt--40 wedget__title">Sort by</h3>
+                                <select class="shot__byselect w--100 mr-3 ml-0" id="sort-select" name="sortBy"
+                                        th:field="*{sortBy}">
+                                    <option selected value="">Select sorting</option>
+                                    <option value="priceLowToHigh">Price: Low to High</option>
+                                    <option value="priceHighToLow">Price: High to Low</option>
+                                    <option value="newest">Newest</option>
+                                    <option value="oldest">Oldest</option>
+                                </select>
+
+                                <h3 class="wedget__title w--100 mr-3 ml-0 mt--40">Keywords</h3>
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="Search..." th:field="*{keyword}"
+                                           type="text">
+                                </div>
+                                <button class="mt-3 btn btn-dark" type="submit">Search</button>
+                            </form>
+                        </aside>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-12 order-1 order-lg-2 mt-3">
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="mt--50 prod product__style--3 col-lg-4 col-md-4 col-sm-6 col-12"
+                                 th:each="book : ${books}">
+
+                                <a class="product_img" th:href="@{/shop/product/__${book.id}__}">
+
+                                    <img alt="product image"
+                                         class="aspect-ratio-box__img img-fluid" th:src="@{/cover_images/__${book.coverImage}__}"/>
+
+                                </a>
+
+                                <h3 class="title__be--2 mt-3">
+                                    <a th:href="@{/shop/product/__${book.id}__}">
+                                        <span th:text="${book.title}"></span>
+                                    </a>
+                                </h3>
+
+                                <h4 class="mt-3 mb-3 color--theme"
+                                    th:text="${#numbers.formatDecimal(__${(book.salePrice)}__, 0, 'POINT', 0, 'POINT')} + ' VND'"></h4>
+
+                                <!-- Add to cart button -->
+                                <div class="product__hover__info">
+
+                                    <button class="btn btn-dark block" href="cart.html"
+                                            th:onclick="'addToCart(' + ${book.id} + ')'"
+                                            th:text="'Add to Cart'"></button>
+
+                                </div>
+
+                            </div>
+                            <!-- End Single Product -->
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+    <div class="mt-5 mb-3 d-flex justify-content-center" th:if="${totalPages > 1}">
+        <ul class="pagination">
+            <li th:class="${pageNumber == currentPage+1 ? 'page-item active' : 'page-item'}"
+                th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
+                <a class="page-link"
+                   th:href="@{/shop(page=${pageNumber}, sortBy=${sortBy},categoryId=${categoryId})}" th:text="${pageNumber}"></a>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        function addToCart(productId) {
+            var data = JSON.stringify({"productId": productId, "quantity": 1});
+
+            $.ajax({
+                type: "POST",
+                url: "/cart/add-to-cart",
+                contentType: "application/json",
+                data: data,
+                success: function (data) {
+                    if (data === "ok") {
+                        alert("Thêm sản phẩm vào giỏ thành công!");
+                        // Update cart quantity in the header
+                        updateCartQuantity();
+                    } else {
+                        alert("Bạn cần đăng nhập trước");
+                        window.location.href = "/login"; // Update the URL accordingly
+                    }
+                },
+                error: function () {
+                    alert("Error adding item to cart.");
+                }
+            });
+        }
+
+        function updateCartQuantity() {
+            $.ajax({
+                type: "GET",
+                url: "/cart/cart-item-count",  // Replace with the actual endpoint to get cart item count
+                success: function (data) {
+                    $("#cart-quantity").text(data); // Update the cart quantity in the header
+                },
+                error: function () {
+                    console.log("Error updating cart quantity.");
+                }
+            });
+        }
+
+
+    </script>
+
+
+    <!-- End Shop Page -->
+    <!-- Footer Area -->
+    <footer th:replace="user/fragments/footer :: footer"></footer>
+    <!-- //Footer Area -->
+</div>
+<!-- //Main wrapper -->
+<!-- JS Files -->
+<script th:src="@{/js/user/vendor/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/user/popper.min.js}"></script>
+<script th:src="@{/js/user/bootstrap.min.js}"></script>
+<script th:src="@{/js/user/plugins.js}"></script>
+<script th:src="@{/js/user/active.js}"></script>
+</body>
+
+</html>
